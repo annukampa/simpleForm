@@ -7,3 +7,49 @@ mat-grid-tile {
 .browse-link:hover {
     text-decoration: underline;
 }
+.save-btn {
+    position: relative;float: right;
+    right: 13%;width: 10%;
+}
+.del-img-btn {
+    position: relative;
+    left: 86%;
+    top: -86%;
+    width: 30px;
+    height: 30px;
+}
+.img-div {
+    display: flex;
+    gap: 10px 20px;
+    flex-flow: row wrap;
+    padding: 2%;
+}
+.add-img-div {
+    display: flex;
+    padding: 2%;
+    width: 96.5%;
+    border: 2px dashed #8259cb;
+    margin-top: 1%;
+    justify-content: center;
+    background-color: #f8f4fb;
+    border-radius: 4px;
+}
+.img-main-div {
+    display: flex;
+    width: 74%;
+    margin-left: 12.5%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.reset-btn {
+    height: 30px;
+    width: 30px;
+    position: relative;
+    float: right;
+    top: 38px;
+}
+.form-div {
+    padding: 2%; 
+    text-align:'center'
+}

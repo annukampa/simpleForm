@@ -1,4 +1,3 @@
-<!--<button (click)="sendMail()">click to send</button>-->
 <p>
     <mat-toolbar color="primary">
       <span>Simple Form</span>
@@ -19,7 +18,7 @@
     <mat-form-field appearance="outline"  style="width: 75%;">
         <mat-label>Small Description</mat-label>
         <button mat-mini-fab color="primary" (click)="resetDesc()"
-        style="height: 30px;width: 30px;position: relative;float: right;top: 38px;">
+        class="reset-btn">
             <mat-icon style="font-size: 15px;">undo</mat-icon>
           </button>
         <textarea matInput [formControl]="desc"></textarea>
@@ -32,21 +31,18 @@
         <input matInput placeholder="pat@example.com" [formControl]="email" required>
         <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
-    <div style="display: flex;width: 74%;margin-left: 12.5%;flex-direction: column;justify-content: flex-start;align-items: flex-start;">
+    <div class="img-main-div">
         <div><mat-label>Add Images</mat-label></div>
         <div (click)="addImage()"
-        style="display: flex;padding: 2%;width: 96.5%;border: 2px dashed #8259cb;
-        margin-top: 1%;justify-content: center;background-color: #f8f4fb;
-        border-radius: 4px;">
+        class="add-img-div">
         <span class="browse-link" style="cursor: pointer;">Browse Files</span>
         <input id="imgUploader" type="file" accept=".png,.jpg" style="display: none"
             (change)="uploadFile($event)">
         </div>
-        <div style="display: flex;gap: 10px 20px;flex-flow: row wrap;padding: 2%;">
+        <div class="img-div">
             <div *ngFor="let item of imagesUploaded; let i = index">
                 <button mat-mini-fab color="primary" (click)="deleteImage(item, i)"
-                aria-label="Example icon button with a menu icon"
-                style="position: relative;left: 86%;top: -86%;width: 30px;height: 30px;">
+                class="del-img-btn">
                     <mat-icon style="font-size: 17px;">close</mat-icon>
                   </button>
             <img [src]="item.url" width="170" height="170" style="border-radius: 4px;">
@@ -55,8 +51,7 @@
     </div>
     <button mat-raised-button color="primary" 
     [disabled]="firstName.invalid || lastName.invalid || desc.invalid || email.invalid"
-    style="position: relative;float: right;
-    right: 13%;width: 10%;" type="submit">Save</button>
+    class="save-btn" type="submit">Save</button>
   </form>
 
   
