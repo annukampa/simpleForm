@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as $ from 'jquery';
 import { MatHint } from '@angular/material/form-field';
+import {DomSanitizer} from "@angular/platform-browser";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,19 +12,23 @@ import { MatHint } from '@angular/material/form-field';
 export class AppComponent {
   title = 'simpleForm';
   panelOpenState = false;
+  imagesUploaded : any = [];
   //simpleForm = new FormGroup({
     firstName = new FormControl('', [Validators.required]);
-    lastName = new FormControl('');
-    desc = new FormControl('', [Validators.maxLength(256)]);
+    lastName = new FormControl('', [Validators.required]);
+    desc = new FormControl('', [Validators.required,Validators.maxLength(256)]);
     email = new FormControl('', [Validators.required, Validators.email]);
   //});
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
   getNameErrorMessage() {
     return this.firstName.hasError('required') ? 'You must enter a value' : '';
   }
-  //getDescErrorMessage() {
-  //  return this.desc.value.length > 256
-  //}
+  getLNameErrorMessage() {
+    return this.lastName.hasError('required') ? 'You must enter a value' : '';
+  }
+  getDescErrorMessage() {
+    return this.desc.hasError('required') ? 'You must add some description' : '';
+  }
   getErrorMessage() {
     if (this.email.hasError('required')) {
       return 'You must enter a value';
@@ -34,8 +39,27 @@ export class AppComponent {
     $('#imgUploader')[0].click();
   }
 
-  uploadFile(files: any) {
-    console.log('files here are #@#@#', files);
+  uploadFile(event: any) {
+    console.log('files here are #@#@#', event.target.files);
+    let files = event.target.files;
+    let fileAdded = this.imagesUploaded.length === 0 && files.length === 1 ? files[0] : files[files.length - 1];
+    let obj = {
+      'fileName':  fileAdded['name'],
+      'url': this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(fileAdded))
+    }
+    //@ts-ignore
+    this.imagesUploaded.push(obj);
+    console.log('files arr is@#', this.imagesUploaded);
+  }
+  resetDesc() {
+    console.log('desc in reset', this.desc);
+    this.desc.reset();
+  }
+  deleteImage(item: any, index:any) {
+    console.log('item in del is @##', item);
+    console.log('index in here @#', index);
+    this.imagesUploaded.splice(index,1);
+    console.log('after del #@32', this.imagesUploaded);
   }
   saveData() {
     console.log('in save data #@3@#@');

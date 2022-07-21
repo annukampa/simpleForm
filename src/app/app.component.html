@@ -11,14 +11,20 @@
         <mat-error *ngIf="firstName.invalid">{{getNameErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 36%;margin-left: 3%;">
-        <mat-label>Last Name (Optional)</mat-label>
+        <mat-label>Last Name</mat-label>
         <input matInput id="last-name" type="text" [formControl]="lastName">
+        <mat-error *ngIf="lastName.invalid">{{getLNameErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline"  style="width: 75%;">
         <mat-label>Small Description</mat-label>
+        <button mat-mini-fab color="primary" (click)="resetDesc()"
+        style="height: 30px;width: 30px;position: relative;float: right;top: 38px;">
+            <mat-icon style="font-size: 15px;">undo</mat-icon>
+          </button>
         <textarea matInput [formControl]="desc"></textarea>
-        <mat-hint align="end" *ngIf="desc.value.length === 256 || desc.value.length < 256">{{desc.value.length}} / 256</mat-hint>
-        <mat-hint align="end" *ngIf="desc.value.length > 256" [ngStyle]="{'color': 'red'}">{{desc.value.length}} / 256</mat-hint>
+        <mat-error *ngIf="desc.invalid">{{getDescErrorMessage()}}</mat-error>
+        <mat-hint align="end" *ngIf="desc && desc.value && (desc.value.length === 256 || desc.value.length < 256)">{{desc.value.length}} / 256</mat-hint>
+        <mat-hint align="end" *ngIf="desc && desc.value && desc.value.length > 256" [ngStyle]="{'color': 'red'}">{{desc.value.length}} / 256</mat-hint>
       </mat-form-field>
     <mat-form-field appearance="outline" style="width: 75%;">
         <mat-label>Enter your email</mat-label>
@@ -28,39 +34,28 @@
     <div style="display: flex;width: 74%;margin-left: 12.5%;flex-direction: column;justify-content: flex-start;align-items: flex-start;">
         <div><mat-label>Add Images</mat-label></div>
         <div (click)="addImage()"
-        style="display: flex;padding: 4%;width: 93%;border: 2px dashed #8259cb;margin-top: 1%;justify-content: center;background-color: #f8f4fb;border-radius: 4px;">Browse Files
+        style="display: flex;padding: 2%;width: 96.5%;border: 2px dashed #8259cb;
+        margin-top: 1%;justify-content: center;background-color: #f8f4fb;
+        border-radius: 4px;">
+        <span style="cursor: pointer;">Browse Files</span>
         <input id="imgUploader" type="file" accept=".png,.jpg" style="display: none"
-            onchange="angular.element(this).scope().uploadFile(this.files)">
+            (change)="uploadFile($event)">
+        </div>
+        <div style="display: flex;gap: 10px 20px;flex-flow: row wrap;padding: 2%;">
+            <div *ngFor="let item of imagesUploaded; let i = index">
+                <button mat-mini-fab color="primary" (click)="deleteImage(item, i)"
+                aria-label="Example icon button with a menu icon"
+                style="position: relative;left: 86%;top: -86%;width: 30px;height: 30px;">
+                    <mat-icon style="font-size: 17px;">close</mat-icon>
+                  </button>
+            <img [src]="item.url" width="170" height="170" style="border-radius: 4px;">
+            </div>
         </div>
     </div>
-    <button mat-raised-button color="primary" style="position: relative;left: 32.5%;margin-top: 1%;width: 10%;" type="submit">Save</button>
+    <button mat-raised-button color="primary" 
+    [disabled]="firstName.invalid || lastName.invalid || desc.invalid || email.invalid"
+    style="position: relative;float: right;
+    right: 13%;width: 10%;" type="submit">Save</button>
   </form>
 
-  <!--<div style="padding: 6%;">
-    <h2>Accordions Created</h2>
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            This is the expansion title
-          </mat-panel-title>
-          <mat-panel-description>
-            This is a summary of the content
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
-      </mat-expansion-panel>
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Self aware panel
-          </mat-panel-title>
-          <mat-panel-description>
-            Currently I am {{panelOpenState ? 'open' : 'closed'}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>-->
+  
