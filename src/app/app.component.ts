@@ -45,7 +45,7 @@ export class AppComponent {
   }
 
   uploadFile(event: any) {
-    console.log('files here are #@#@#', event.target.files);
+    //console.log('files here are #@#@#', event.target.files);
     let files = event.target.files;
     let fileAdded = this.imagesUploaded.length === 0 && files.length === 1 ? files[0] : files[files.length - 1];
     let obj = {
@@ -55,20 +55,20 @@ export class AppComponent {
     //@ts-ignore
     this.imagesUploaded.push(obj);
     this.imagesName.push(fileAdded['name']);
-    console.log('files arr is@#', this.imagesUploaded);
+    //console.log('files arr is@#', this.imagesUploaded);
   }
   resetDesc() {
-    console.log('desc in reset', this.desc);
+    //console.log('desc in reset', this.desc);
     this.desc.reset();
   }
   deleteImage(item: any, index:any) {
-    console.log('item in del is @##', item);
-    console.log('index in here @#', index);
+    //console.log('item in del is @##', item);
+    //console.log('index in here @#', index);
     this.imagesUploaded.splice(index,1);
-    console.log('after del #@32', this.imagesUploaded);
+    //console.log('after del #@32', this.imagesUploaded);
   }
   saveData() {
-    console.log('in save data #@3@#@');
+    //console.log('in save data #@3@#@');
     this.dataCreated = {
       'firstName': this.firstName.value,
       'lastName': this.lastName.value,
@@ -76,12 +76,12 @@ export class AppComponent {
       'email': this.email.value,
       'imagesAttached': this.imagesUploaded
     };
-    console.log('data created is #@#@#@#@#', this.dataCreated);
+    //console.log('data created is #@#@#@#@#', this.dataCreated);
   }
   sendMail() : void {
     this.isSending = true;
     //console.log('simpleForm ##@#@', this.simpleForm);
-    console.log('in sendMail email is #@#@');
+    //console.log('in sendMail email is #@#@');
     
     this.dataCreated = {
       'firstName': this.firstName.value,
