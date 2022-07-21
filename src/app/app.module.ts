@@ -15,9 +15,13 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SuccessDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import {MatIconModule} from '@angular/material/icon';
     MatExpansionModule,
     MatToolbarModule,
     MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

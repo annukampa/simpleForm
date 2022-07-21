@@ -4,7 +4,8 @@
       <span>Simple Form</span>
     </mat-toolbar>
   </p>
-<form style="padding: 2%; text-align:'center'" (ngSubmit)="saveData()">
+  <mat-progress-bar mode="indeterminate" *ngIf="isSending"></mat-progress-bar>
+<form style="padding: 2%; text-align:'center'" (ngSubmit)="sendMail()">
     <mat-form-field appearance="outline" style="width: 36%;">
         <mat-label>First Name</mat-label>
         <input matInput id="first-name" type="text" [formControl]="firstName" required>
@@ -37,7 +38,7 @@
         style="display: flex;padding: 2%;width: 96.5%;border: 2px dashed #8259cb;
         margin-top: 1%;justify-content: center;background-color: #f8f4fb;
         border-radius: 4px;">
-        <span style="cursor: pointer;">Browse Files</span>
+        <span class="browse-link" style="cursor: pointer;">Browse Files</span>
         <input id="imgUploader" type="file" accept=".png,.jpg" style="display: none"
             (change)="uploadFile($event)">
         </div>

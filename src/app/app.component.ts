@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as $ from 'jquery';
 import { MatHint } from '@angular/material/form-field';
 import {DomSanitizer} from "@angular/platform-browser";
+import {MatDialog} from '@angular/material/dialog';
+import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,13 +15,16 @@ export class AppComponent {
   title = 'simpleForm';
   panelOpenState = false;
   imagesUploaded : any = [];
+  imagesName: any = [];
+  dataCreated: any = {};
+  isSending: boolean = false;
   //simpleForm = new FormGroup({
     firstName = new FormControl('', [Validators.required]);
     lastName = new FormControl('', [Validators.required]);
     desc = new FormControl('', [Validators.required,Validators.maxLength(256)]);
     email = new FormControl('', [Validators.required, Validators.email]);
   //});
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, public dialog: MatDialog) {}
   getNameErrorMessage() {
     return this.firstName.hasError('required') ? 'You must enter a value' : '';
   }
@@ -49,6 +54,7 @@ export class AppComponent {
     }
     //@ts-ignore
     this.imagesUploaded.push(obj);
+    this.imagesName.push(fileAdded['name']);
     console.log('files arr is@#', this.imagesUploaded);
   }
   resetDesc() {
@@ -63,11 +69,27 @@ export class AppComponent {
   }
   saveData() {
     console.log('in save data #@3@#@');
+    this.dataCreated = {
+      'firstName': this.firstName.value,
+      'lastName': this.lastName.value,
+      'description': this.desc.value,
+      'email': this.email.value,
+      'imagesAttached': this.imagesUploaded
+    };
+    console.log('data created is #@#@#@#@#', this.dataCreated);
   }
   sendMail() : void {
+    this.isSending = true;
     //console.log('simpleForm ##@#@', this.simpleForm);
     console.log('in sendMail email is #@#@');
     
+    this.dataCreated = {
+      'firstName': this.firstName.value,
+      'lastName': this.lastName.value,
+      'description': this.desc.value,
+      'email': this.email.value,
+      'imagesAttached': this.imagesUploaded
+    };
     let data = {
       service_id: 'service_l6nrh0n',
       template_id: 'template_pw57tkm',
@@ -76,14 +98,19 @@ export class AppComponent {
         to_name: 'Annukampa',
         from_name: 'Simple Forms',
         emailAddress: 'annukampagvd@gmail.com',
-        message: 'testing images #@3@3',
-        img01: '<div><h1>Jimbo.</h1>\n<p>Thats what she said</p></div>'
+        name: this.firstName.value + ' ' + this.lastName.value,
+        desc: this.desc.value,
+        imagesAdded: this.imagesName.toString(),
+        header: '<div style="padding: 20px;background-color: #673ab7;color: white;"><h2>Simple Form Data</h2><p>Please find the details you submitted.</p><small>*All the data is as per your submission.</small></div>'
       }
     };
 
     this.http.post('https://api.emailjs.com/api/v1.0/email/send', data, { responseType: 'text' })
       .subscribe((result) => {
-        alert('Your message has been sent!');
+        setTimeout(function() {
+      },100);
+        this.isSending = false;
+        this.dialog.open(SuccessDialogComponent);
       }, (error: HttpErrorResponse) => {
         alert('Oops... ' + error.message);
       }
