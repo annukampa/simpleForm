@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import * as $ from 'jquery';
 import { MatHint } from '@angular/material/form-field';
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ import { MatHint } from '@angular/material/form-field';
 })
 export class AppComponent {
   title = 'simpleForm';
+  panelOpenState = false;
   //simpleForm = new FormGroup({
     firstName = new FormControl('', [Validators.required]);
     lastName = new FormControl('');
@@ -28,6 +29,16 @@ export class AppComponent {
       return 'You must enter a value';
     }
     return this.email.hasError('email') ? 'Not a valid email' : '';
+  }
+  addImage() {
+    $('#imgUploader')[0].click();
+  }
+
+  uploadFile(files: any) {
+    console.log('files here are #@#@#', files);
+  }
+  saveData() {
+    console.log('in save data #@3@#@');
   }
   sendMail() : void {
     //console.log('simpleForm ##@#@', this.simpleForm);
