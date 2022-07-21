@@ -1,1 +1,23 @@
 <button (click)="sendMail()">click to send</button>
+<form>
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput id="first-name" type="text" [formControl]="firstName" required>
+        <mat-error *ngIf="firstName.invalid">{{getNameErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Last Name (Optional)</mat-label>
+        <input matInput id="last-name" type="text" [formControl]="lastName">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Small Description</mat-label>
+        <textarea matInput [formControl]="desc"></textarea>
+        <mat-hint align="end" *ngIf="desc.value.length === 256 || desc.value.length < 256">{{desc.value.length}} / 256</mat-hint>
+        <mat-hint align="end" *ngIf="desc.value.length > 256" [ngStyle]="{'color': 'red'}">{{desc.value.length}} / 256</mat-hint>
+      </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="pat@example.com" [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+  </form>
